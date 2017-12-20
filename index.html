@@ -256,6 +256,38 @@
     }
     console.log(getScrollPos());
 
+    //模拟数组的entries方法
+    Array.prototype.entries = function(){
+      var length = this.length;
+      var id = 0;
+      var me = this;
+      return {
+        next: function(){
+          return {
+            done: id > length - 1 ? true : false,
+            value: [id, me[id++]]
+          }
+        }
+      }
+    }
+    //模拟数组的values方法
+    Array.prototype.values = function(){
+      var length = this.length;
+      var id = 0;
+      var me = this;
+      return {
+        next: function(){
+          return {
+            done: id > length-1 ? true : false ,
+            value: me[id++]
+          }
+        }
+      }
+    }
+    var a = [1,2].entries();
+    console.log(a.next());
+    console.log(a.next());
+    console.log(a.next());
   </script>
 </body>
 </html>
