@@ -86,6 +86,79 @@
   <p>1</p>
   <p>1</p>
   <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
   <p id="last">1</p>
   <script>
     //利用时间戳实现倒计时
@@ -212,8 +285,8 @@
       return [...str].reverse().join('');
     }
 
+    //回到顶部
     function scrollTop() {
-      //回到顶部 
       var top = document.documentElement.scrollTop || document.body.scrollTop;
       if (top > 0) {
         window.requestAnimationFrame(scrollTop);
@@ -294,11 +367,29 @@
     console.log(a.next());
     console.log(a.next());
 
+    //模拟数组的forEach方法
+    if (!Array.prototype.forEach){
+      Array.prototype.forEach = function(fn,bind){
+        for (var i = 0; i < this.length; i++) fn.call(bind, this[i], i, this);
+      }
+    }
+    Array.prototype.each = Array.prototype.forEach;
+
+
+    //模拟数组的indexOf 方法
+    if (!Array.prototype.indexOf) {
+      Array.prototype.indexOf = function(val){
+        for (var i = 0 ; i < this.length; i++){
+          if (val === this[i]) return i;
+        } 
+        return -1;
+      }
+    }
+
 
     //如果浏览器不支持bind方法，实现bind
     if (!Function.prototype.bind) {
       Function.prototype.bindObj = function(object){
-        console.log(222);
         var __method = this;
         var args = Array.prototype.slice.call(arguments, 1);
         return function(){
@@ -314,6 +405,37 @@
       console.log(arguments);
     };
     test.bind(obj,4)(5);
+
+
+    //利用 Object.prototype.toString来检测对象类型
+    var _toString = Object.prototype.toString,
+        _hasOwnProperty = Object.prototype.hasOwnProperty,
+        FUNCTION_CLASS = '[object Function]',
+        DATE_CLASS = '[object Date]',
+        NUMBER_CLASS = '[object Number]',
+        ARRAY_CLASS = '[object Array]',
+        STRING_CLASS = '[object String]';
+
+    function isArray(object) {
+      return _toString.call(object) === ARRAY_CLASS;
+    }
+    if (!Array.isArray) {
+      Array.prototype.isArray = function(){
+        return _toString.call(object) === FUNCTION_CLASS;
+      }
+    }
+    function isFunction(object) {
+      return _toString.call(object) === FUNCTION_CLASS;
+    }
+    function isNumber(object) {
+      return _toString.call(object) === NUMBER_CLASS;
+    }
+    function isDate(object) {
+      return _toString.call(object) === DATE_CLASS;
+    }
+    function isString(object) {
+      return _toString.call(object) === STRING_CLASS;
+    }
   </script>
 </body>
 </html>
