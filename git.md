@@ -45,13 +45,8 @@
 >6、git tag -d v1.0 删除版本
 
 ## 四、git cherry-pick
-```应用： dev分支， dev_2分支 （从dev分支打出来的）
 
-dev_2分支现在 有三个commit , ( commit1, commit2, commit3)
-
-现在有一个需求，需要把commit2 提交的内容合并到dev上，怎
-
-么办，不能新建分支，然后eset回去再合并吧。```
+```应用： dev分支， dev_2分支 （从dev分支打出来的）dev_2分支现在 有三个commit , ( commit1, commit2, commit3),现在有一个需求，需要把commit2 提交的内容合并到dev上，怎么办，不能新建分支，然后eset回去再合并吧。```
 
 >1、拿到commit2  的版本号
 
