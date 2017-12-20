@@ -1,0 +1,261 @@
+<html>
+<meta charset="utf-8">
+<head>
+  <style>
+    a{
+      width: 100px;
+      height: 50px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <a class="btn" href="#">
+    发短信
+  </a>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p>1</p>
+  <p id="last">1</p>
+  <script>
+    //利用时间戳实现倒计时
+    function applyCountDown(){
+      var sms = {
+        count: 0,
+        countDown: false
+      }
+      document.getElementsByClassName('btn')[0].onclick = function(){
+        console.log(111);
+        if (sms.countDown) return;
+        beginSmsCountDown(this);
+      }
+      function beginSmsCountDown(elem)   {
+        sms.count++;
+        var time = +new Date();
+        //到计时多少秒就乘多少，用时间戳去计算秒，而不是setTimeout(fn, 1000)去计算。这样更准确一点
+        var targetTime = (sms.count*30)*1000+time;
+        runCountDown(elem, targetTime); 
+      }
+      function runCountDown(elem, targetTime){
+        var now = +new Date();
+        //最高30秒， 可能会出现count = 29.3, 28.5... 等等，向下取整
+        console.log((targetTime - now));
+        var count = Math.floor( (targetTime - now)/1000 );
+        if (count === 30) count = 29;
+        if (count > 0) {
+          sms.countDown = true;
+          elem.innerHTML = '重新发送' + count;
+          setTimeout(function(){
+            runCountDown(elem, targetTime);
+          }, 100);
+        } else {
+          sms.countDown = false;
+          elem.innerHTML = '发短信';
+          sms.count = 0;
+        }
+      }
+    }
+    
+    applyCountDown();
+
+    function aver(){
+      //求平均数
+      return [1,2,3].reduce(function(acc, next){
+         return acc+next;
+      }, 0) / 3;
+    }
+		function upCase(){
+      //将字符串的首字母大写
+      return ['my name', 'your name'].map(function(current, next) {
+        return current.replace(/\b[a-z]/g, function(result) { return result.toUpperCase()})
+      });
+    }
+    function fin(n) {
+      //求递归
+      return n === 1 ? n : n * fin(n-1);
+    }
+    function filterUniq() {
+      //取出数组中不重复的元素
+      var arr = [1,2,3,4,4,5];
+      return arr.filter(function(item) {
+        return arr.indexOf(item) === arr.lastIndexOf(item);
+      });
+    }
+    function fibonacci(n){
+      //菲波那切数列生成器, 后面的一个数等于前面两个数相加之和（前两个除外）。
+      var arr = Array(n).fill(n);
+      return arr.reduce(function(acc, val, i){
+        return acc.concat(i > 1 ? acc[i-1]+acc[i-2]:i+1);
+      },[])
+    }
+    function arrayMax(){
+      //利用Math.max() 和spread运算符
+      return Math.max(...[1,2,3,4]);
+    }
+    function lastArr(arr) {
+      //数组最后一位, 如果下边是负数，则从后往前数
+      return arr.slice(-1)[0];
+    }
+    function roundArr(arr){
+      //获取出了数组最后一位的所有
+      return arr.slice(0,-1);
+    }
+    function pipe(...funs){
+      //reduce通过函数传值
+      return function(arg){
+         return funs.reduce(function(acc, func){
+           return func(acc)     
+         }, arg)
+      }
+      //pipe(function(x){return x.toUpperCase()})('test');   累次connect()()的用法
+    }
+    function roundNum(min, max){
+      //生成min - max的随机数
+      return Math.floor(Math.random()*(max-min+1)+min);
+    }
+    function shuffle (arr){
+      //随机化数组的顺序
+      return arr.sort(function(){
+        // -0.5是为了正序和倒序的几率均为50%
+        return Math.random() - 0.5;
+      });
+    }
+    function costTime(fn){
+      //计算函数执行所花费的时间
+
+      //console.time  必须和console.timeEnd一起是用才有效果
+      console.time('costTime');
+      var r = fn && fn();
+      console.timeEnd('costTime');
+      return r;
+
+     // costTime(function() { return Math.pow(2,10)});
+    }
+    function redirect(url, flag){
+      //如果flag = true 则模拟链接点击效果，否则模拟http重定向
+      flag ? window.location.href = url : window.location.replace(url);
+      //redirect('https://www.baidu.com', true);
+    }
+
+    //反转字符串
+    function reverseStr(str) {
+      return [...str].reverse().join('');
+    }
+
+    function scrollTop() {
+      //回到顶部 
+      var top = document.documentElement.scrollTop || document.body.scrollTop;
+      if (top > 0) {
+        window.requestAnimationFrame(scrollTop);
+        window.scrollTo(0, top - top/8);
+      }
+    } 
+    scrollTop();
+
+    //判断是否是数字，是否是有穷数
+    function validateNumber(num) {
+      if(isNaN(num) || !isFinite(num)){
+        return false;
+      }
+      return false;
+    }
+
+    //flatten数组   展平数组
+    function flattenArr (arr) {
+      return arr.reduce(function(acc,next){
+        return acc.concat(next); 
+      },[]);
+
+      // flattenArr([1,[2,3],4]) -> [1,2,3,4]
+    }
+    //深度flatten数组
+    function deepFlatten(arr){
+      return arr.reduce(function(acc,next){
+        return acc.concat(Array.isArray(next) ? deepFlatten(next) : next);
+      },[])
+      //deepFlatten([1,[2,[3]],4]) -> [1,2,3,4]
+    }
+    console.log(deepFlatten([1,[2,[3]],4]));
+
+    //获取滚动位置
+    function getScrollPos(el=window){
+      return {
+        x: (el.pageXOffset !== undefined) ? el.pageXOffset : el.scrollLeft,
+        y: (el.pageYOffset !== undefined) ? el.pageYOffset : el.scrollTop
+      }
+    }
+    console.log(getScrollPos());
+
+  </script>
+</body>
+</html>
