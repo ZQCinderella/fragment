@@ -257,37 +257,63 @@
     console.log(getScrollPos());
 
     //模拟数组的entries方法
-    Array.prototype.entries = function(){
-      var length = this.length;
-      var id = 0;
-      var me = this;
-      return {
-        next: function(){
-          return {
-            done: id > length - 1 ? true : false,
-            value: [id, me[id++]]
+    if (!Array.prototype.entries) {
+      Array.prototype.entries = function(){
+        var length = this.length;
+        var id = 0;
+        var me = this;
+        return {
+          next: function(){
+            return {
+              done: id > length - 1 ? true : false,
+              value: [id, me[id++]]
+            }
           }
         }
       }
     }
+    
     //模拟数组的values方法
-    Array.prototype.values = function(){
-      var length = this.length;
-      var id = 0;
-      var me = this;
-      return {
-        next: function(){
-          return {
-            done: id > length-1 ? true : false ,
-            value: me[id++]
+    if (!Array.prototype.values) {
+      Array.prototype.values = function(){
+        var length = this.length;
+        var id = 0;
+        var me = this;
+        return {
+          next: function(){
+            return {
+              done: id > length-1 ? true : false ,
+              value: me[id++]
+            }
           }
         }
       }
     }
-    var a = [1,2].entries();
+    var a = [1,2].values();
     console.log(a.next());
     console.log(a.next());
     console.log(a.next());
+
+
+    //如果浏览器不支持bind方法，实现bind
+    if (!Function.prototype.bind) {
+      Function.prototype.bindObj = function(object){
+        console.log(222);
+        var __method = this;
+        var args = Array.prototype.slice.call(arguments, 1);
+        return function(){
+          __method.apply(object, args.concat(Array.prototype.slice.call(arguments,0)));
+        }
+      }
+    }
+    var obj = {
+      name: 'fet'
+    }
+    function test(a){
+      this.age = a;
+      console.log(arguments);
+    };
+    test.bind(obj,4)(5);
   </script>
 </body>
 </html>
