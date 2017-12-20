@@ -4,31 +4,23 @@
 
 > 1、dev:  git rebase master
 
-将dev分支的起始位置变基到master的最新commit上
-
-master - dev - dev2 (dev2是从dev打出来的分支)
+	将dev分支的起始位置变基到master的最新commit上, master - dev - dev2 (dev2是从dev打出来的分支)
 
 > 2、dev2:  git rebase —preserve-merges master dev
 
-先将dev2分支其实位置变基到dev最新commit，再把dev2 的起
-
-始位置变基到master的最新commit
+	先将dev2分支其实位置变基到dev最新commit，再把dev2 的起始位置变基到master的最新commit
 
 > 3、如果有冲突，解决完之后
 
-	> 1) git add 
+	1) git add 
 
-	> 2) git rebase  —continue
+	2) git rebase  —continue
 
-> 4、在rebase的任何时间，都可以用git rebase —abort终止，并
-
-且回到rebase之前的状态
+> 4、在rebase的任何时间，都可以用git rebase —abort终止，并且回到rebase之前的状态
 
 ## 二、git stash
 
-	> 当在dev分支上有修改，现在需要切换到master分支，但是
-
-不想提交，可以使用 stash暂存修改
+	当在dev分支上有修改，现在需要切换到master分支，但是不想提交，可以使用 stash暂存修改
 
 > 1、git stash save    将修改存储
 
@@ -53,14 +45,13 @@ master - dev - dev2 (dev2是从dev打出来的分支)
 >6、git tag -d v1.0 删除版本
 
 ## 四、git cherry-pick
-
-``应用： dev分支， dev_2分支 （从dev分支打出来的）
+```应用： dev分支， dev_2分支 （从dev分支打出来的）
 
 dev_2分支现在 有三个commit , ( commit1, commit2, commit3)
 
 现在有一个需求，需要把commit2 提交的内容合并到dev上，怎
 
-么办，不能新建分支，然后eset回去再合并吧。``
+么办，不能新建分支，然后eset回去再合并吧。```
 
 >1、拿到commit2  的版本号
 
@@ -68,11 +59,7 @@ dev_2分支现在 有三个commit , ( commit1, commit2, commit3)
 
 >3、git cherry-pick 版本号  
 
-``三步即可吧commit2的提交更新到master,  但是commit1并不会
-
-提交，单纯只有commit 2这次修改
-
-注：如果有冲突，解决了继续commit就可以了。``
+```三步即可吧commit2的提交更新到master,  但是commit1并不会提交，单纯只有commit 2这次修改注：如果有冲突，解决了继续commit就可以了。```
 
 ##五、恢复到之前的状态最绝望的招数
 
