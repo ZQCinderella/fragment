@@ -13,6 +13,9 @@
   <a class="btn" href="#">
     发短信
   </a>
+  <a id="throttle" href="#">
+    测试函数节流
+  </a>
   <p>1</p>
   <p>1</p>
   <p>1</p>
@@ -436,6 +439,97 @@
     function isString(object) {
       return _toString.call(object) === STRING_CLASS;
     }
+    
+    //函数节流
+    function throttle(callback, delay){
+      var last = +new Date();
+      return function(){
+        var now = +new Date();
+        if (now - last > delay) {
+          last = now;
+          callback.apply(null, arguments);
+        }
+      }
+    }
+
+    document.getElementById('throttle').onclick = throttle(function(name){
+      //测试函数节流
+      console.log(arguments);
+    }, 1000);
+     
+    //另一种函数节流 即事件发起结束后的 delay秒后执行
+    function debounce(callback, delay){
+      var timer = '';
+      return function (){
+        var obj = this;
+        timer && clearTimeout(timer);
+        timer = setTimeout(function(){
+          callback.apply(this, arguments);
+        }, delay);
+      }
+    }
+    /*document.getElementById('throttle').onclick = debounce(function(name){
+      //测试函数节流
+      console.log(arguments);
+    }, 1000);*/
+   
+
+    //多个需要resize的元素进行节流。  比如一个页面里有多个视频
+    var onResize = (function(){
+      var fns = [];
+      function init () {
+        window.onresize = function(){
+          var now = +new Date();
+          if (!this.lastResize || now - this.lastResize > 50) {
+            this.lastResize = now;
+            exec(fns);
+          }
+        }
+      }
+      function exec(){
+        for(var i = 0; i < fns.length; i++){
+          if (typeof fns[i] === 'function'){
+            fns[i]();
+          }
+        }
+      }
+      var initSize = false;
+      return {
+        add: function(fn){
+          fns.push(fn);
+          if (!initSize){
+            initSize = true;
+            init();
+          }
+        },
+        remove: function(fn){
+          for (var i = 0; i < fns.length; i++) {
+            if (fns[i] === fn){
+              fns.splice(i,1);
+              break;
+            }
+          }
+        }
+      }
+    })();
+    var Play = {
+      init: function(){
+        onResize.add(this.onresize);
+      },
+      onresize: function(){
+        console.log(1111);
+      }
+    }
+    Play.init();
+    var Play2 = {
+      init: function(){
+        onResize.add(this.onresize);
+      },
+      onresize: function(){
+        console.log(2222);
+      }
+    }
+    Play2.init();
   </script>
 </body>
 </html>
