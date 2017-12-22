@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="white">
+	<meta name="format-detection" content="telephone=no,email=no">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="smodal.css">
+</head>
+<body>
+<a href="#" id="show">show</a>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>		
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>		
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>		
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>		
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>		
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>		
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>		
+<p>1</p>
+<p>1</p>
+<script type="text/javascript" src="smodal.js"></script>
+<script type="text/javascript">
+	var showDialog = (function() {
+		var container = new SAlert({
+			title: '我是title',
+			face: 'hide',
+			text: '你猜猜我是什么',
+			btns: [{
+				key: 'certain_btn',
+				cls: 'btn-left',
+				text: '确定',
+				handle: function(modal){
+					modal.hide();
+				}
+			},{
+				key: 'cancel_btn',
+				cls: 'btn-right',
+				text: '取消',
+				handle: function(modal){
+					modal.hide();
+				}
+			}]
+		});
+		return function (face, html, fnyes, fnno){
+			container.updateTitle(html);
+			container.changeFace(face);
+			if (fnyes) {
+				container.updateBtn({
+					key: 'certain_btn',
+					handle: function(modal){
+						fnyes(modal);
+						modal.hide();
+					}
+				});
+			}
+			if (fnno) {
+				container.updateBtn({
+					key: 'cancel_btn',
+					handle: function(modal){
+						fnno(modal);
+						modal.hide();
+					}
+				});
+			}
+			container.show();
+		}
+	})();
+	window.onload = function(){
+		document.getElementById('show').onclick = function(e){
+			e.preventDefault();
+			showDialog('hide', '哈哈');
+		}
+	}
+	
+</script>
+</body>
+</html>

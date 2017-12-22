@@ -33,6 +33,7 @@
       width: 0%;
       height:30px;
       background: #0f0;
+      transition: all .5s cubic-bezier(0.08, 0.6, 1, 0.63);
     }
   </style>
 </head>
@@ -82,9 +83,13 @@
         var img = document.createElement('img');
         var reader = new FileReader();
         var xhr = new XMLHttpRequest();
-        
+        reader.onload = function(e){
+          //如果url太大， 可能会导致页面阻塞，进度条卡在最后一个位置，到不了100%
+          //img.src = e.target.result;
+        }
         //ajax的onprogress 与fileReader 的几乎一样
         reader.addEventListener('progress', function(e){
+          console.log(e);
           if(e.lengthComputable){
             var percentage = Math.round((e.loaded * 100/e.total));
             progress.style.width = percentage + '%';

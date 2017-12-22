@@ -1,0 +1,199 @@
+@charset "utf-8";
+.smodal-container{
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:9999;
+}
+.smodal-mask{
+  width:100%;
+  height:100%;
+  background:#000;  
+  opacity: .3;  
+  filter:alpha(opacity=30);
+}
+/*
+PC样式
+.smodal-con{
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background: #fff;
+  border-radius: 10px;
+  border: 3px solid #c46aaf;
+  color: #c46aaf;
+  box-sizing: border-box;
+  padding: 20px;
+  padding-bottom:60px;
+}
+.smodal-header,.smodal-body,.smodal-footer{
+  box-sizing:border-box;
+}
+.smodal-body{
+  padding: 60px 20px 0;
+  position: relative;
+}
+.smodal-header{
+  width:100%;
+  height:30px;
+  padding:5px 10px;
+}
+.salert-text-content{
+  line-height:2;
+  text-align:center;
+  font-size:18px;
+}
+.smodal-btn{
+  cursor: pointer;
+  border-radius: 25px;
+  height: 30px;
+  line-height: 30px;
+  min-width: 60px;
+  text-align: center;
+  display: inline-block;
+  padding: 0px 20px;
+  border: 2px solid #c46aaf;
+  background: #c46aaf;
+  margin: 0 15px;
+  color: #fff;
+  font-size: 20px;
+}
+.btn-cancel{
+  background:#fff;
+  color:#666;
+}
+.btn-normal{
+  background:#fff;
+  color:#c46aaf;
+}
+.smodal-footer{
+  bottom: 20px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.btn-right{float:right;}
+.btn-left{float:left;}
+.smodal-close{
+  z-index:3000;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 200px;
+  background: #9c568c;
+  color: #fff;
+  text-align: center;
+  line-height: 36px;
+  font-size: 32px;
+  position: absolute;
+  top: -20px;
+  right: -20px;
+}
+.smodal-face{
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  top: -150px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+*/
+/*input,textarea,div,a{
+  -webkit-appearance:none;
+}
+
+a,img,button,input,textarea,li,p,div{
+  -webkit-tap-highlight-color:rgba(255,255,255,0);
+}*/
+.smodal-con{
+    min-height:0;
+    width: 6rem;
+    height: 4rem;
+    position: fixed;
+    top:45%;
+    left:50%;
+    box-sizing: border-box;
+    border-radius: 0;
+    background: #fff;
+    padding: .18rem;
+    border-top: .05rem solid #59A3FF;
+    border-radius: .1rem;
+    transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+    transform-origin: center;
+  }
+  .smodal-header{
+    text-align: center;
+    overflow: hidden;
+    font-size: .35rem;
+    margin-top: .2rem;
+  }
+  .smodal-body{
+    padding:0;
+    margin-top: .2rem;
+  }
+  .smodal-face{
+    width: 100%;
+    height: 1.6rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:contain;
+  }
+  .face-right{
+    background-image:url(right.png);  
+  }
+  .face-error{
+    background-image:url(error.png);  
+  }
+  .face-hide{
+    display:none;
+  }
+  .salert-text-content{
+    line-height: 2;
+    /*margin-top:.6rem;*/
+    text-align: center;
+    font-size: .28rem;
+    width: 100%;
+  }
+  .smodal-close{
+    display:none;
+  }
+  .smodal-footer{
+    bottom: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: .72rem;
+    color:#666;
+    border-top: 1px solid #ccc;
+  }
+  .smodal-btn{
+    float: left;
+    cursor: pointer;
+    border-radius:0;
+    height: .8rem;
+    line-height: .8rem;
+    text-align: center;
+    padding:0;
+    border:0;
+    background: #59A3FF;
+    margin:0;
+    color: #fff;
+    font-size: .3rem;
+    letter-spacing: 1px;
+    outline: none;
+    /*width: 50%;*/
+  }
+  .btn-left{
+    border-radius: 0 0 0 .1rem;
+  }
+  .btn-right{
+    float:left;
+    background: #fff;
+    color: #000;
+    border-radius: 0 0 .1rem 0;
+  }
