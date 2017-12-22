@@ -272,6 +272,15 @@
     }
     console.log(getScrollPos());
 
+    //原生js获取css属性值, 结果带单位
+    function getStyle(node, attr) {
+      if (node.currentStyle) {
+        return node.currentStyle[attr];
+      } else {
+        return node.getComputedStyle(obj, null)[attr];
+      }
+    }
+
     //模拟数组的entries方法
     if (!Array.prototype.entries) {
       Array.prototype.entries = function(){
