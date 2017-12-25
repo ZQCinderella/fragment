@@ -338,6 +338,38 @@
       }
     }
 
+    //模拟数组的map方法
+    if (!Array.prototype.map) {
+      Array.prototype.map = function(callback, thisArg) {
+        var T, A, k;
+
+        if (this === null) throw new TypeError('this is null or not defined')
+        var O = Object(this); //将调用者转为对应的对象
+        var len = O.length;
+        if (thisArg) {
+          T = thisArg;
+        }
+
+        //判断callback是否为函数
+        if (Object.prototype.toString.call(callback) !== '[object Function]') {
+          throw new TypeError(callback + 'is not a function')
+        }
+
+        k = 0;
+        A = new Array(len);
+        for (; k < len; k++) {
+          var kValue, mappedValue;
+          if (k in O) {
+            kValue = O[k];
+
+            mappedValue = callback.call(T, kValue, k, O); // currentValue index currentArray
+
+            A[k] = mappedValue;
+          }
+        }
+        return A;
+      }
+    }
 
     //如果浏览器不支持bind方法，实现bind
     if (!Function.prototype.bind) {
