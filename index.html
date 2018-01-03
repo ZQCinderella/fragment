@@ -371,6 +371,91 @@
       }
     }
 
+    //实现数组的includes方法
+    if (!Array.prototype.includes) {
+      Object.defineProperty(Array.prototype, 'includes', {
+        value: function(searchElement, fromIndex) {
+          if (this === null) {
+            throw new TypeError('this is null or not defined')
+          }
+          var obj = Object(this);
+          var len = obj.length;
+          var index = fromIndex || 0;
+          //如果索引位置是负数，那么就从 len - Math.abs(index) 开始搜索， 如果 len - Math.abs(index) < 0 从0 开始
+          var k = Math.max(index >= 0 ? index : len - Math.abs(index), 0);
+          while(k < len) {
+            if (obj[k] === searchElement) {
+              return true;
+            }
+            k++;
+          }
+          return false;
+        }
+      })
+    }
+
+    //实现Object.create方法
+    if (!Object.create) {
+      //Object.create(proto, propertyObject) 第二个属性类似于defineProperty的第三个参数，属性都是可配置的，如果不写，则默认为false, 不可枚举，不可写，不可配置
+      Object.create = function (proto, props){
+        if (typeof proto !== 'object' || typeof proto !== 'function') {
+          throw new TypeError('Object prototype may only be an Object');
+        }
+        if (proto === null) {
+          throw new Error('not null');
+        }
+        //polyfill无法实现props的功能
+
+        var F = function () {};
+        F.prototype = proto;
+        return new F();
+      }
+    }
+    var obj = {}
+    function withValue(value) {
+      var d = withValue.d || (
+        withValue.d = {
+          enumerable: false,
+          writable: false,
+          configurable: false,
+          value: null
+        }
+      );
+      d.value = value;
+      return d;
+    }
+    Object.defineProperty(obj, 'key', withValue('static'));
+    console.log(obj);
+
+
+    //继承
+    function Shape () {
+      this.x = 0;
+      this.y = 0;
+    }
+    Shape.prototype.move = function(x,y) {
+      this.x = x;
+      this.y = y;
+      console.log(this.x + this.y);
+    }
+    function Rectangle() {
+      Shape.call(this);
+    }
+    Rectangle.prototype = Object.create(Shape.prototype);
+    //如果想再继承别的对象的方法，则可以混合阶乘
+    //Object.assign(Rectangle.prototype, otherObj.prototype);
+    Rectangle.prototype.constructor = Rectangle;
+     var rect = new Rectangle();
+    rect.move(1,22);
+    /*
+    另一种继承的方式
+    function F(){}
+    F.prototype = Shape.prototype;
+    var ex = new F();
+    ex.move(1,3);
+    */
+   
+
     //如果浏览器不支持bind方法，实现bind
     if (!Function.prototype.bind) {
       Function.prototype.bindObj = function(object){
@@ -511,6 +596,16 @@
       }
     }
     Play2.init();
+
+    function hideCard (card) {
+      var reg = /(\d{4}\B)(?=\d{4}\b)/g;
+      return card.replace(/\s+/g, '').replace(/(\d+)(?=\d{4}\b)/g, function(item, $1){
+        return $1.replace(/(\d{4})+(?=\d{1,4}\b)/g, function(m){
+          return m.replace(/(\d{4})/g, '$1 ')
+        }).replace(/\d/g, '*') + ' ';
+      });
+    }
+    console.log(hideCard('622663202225852'));
   </script>
 </body>
 </html>
