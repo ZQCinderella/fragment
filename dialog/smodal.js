@@ -75,7 +75,7 @@ var SModal_Con = Class.create({
     var container = this.container = document.createElement("div");
     container.className = "smodal-container";
     container.style.display = 'none';
-    container.innerHTML = '<div class="smodal-mask"></div>';
+    //container.innerHTML = '<div class="smodal-mask"></div>';
     bodyNode.appendChild(container);
   },
   isMobile: function() {
@@ -110,11 +110,13 @@ var SModal_Con = Class.create({
     }.bind(this));
   },
   showModal: function(key) {
-    this.data[key].style.display = 'block';
+    this.data[key].style.display = 'flex';
+    this.data[key].style.display = '-webkit-flex';
   },
   show: function() {
     this.resizeContainer();
-    this.container.style.display = 'block';
+    this.container.style.display = 'flex';
+    this.container.style.display = '-webkit-flex';
   },
   hide: function() {
     this.container.style.display = 'none';
@@ -163,7 +165,7 @@ var SModal = Class.create({
     //render && events
     this.render();
     this.bindEvents();
-    this.initWidthAndHeight();
+    //this.initWidthAndHeight();
   },
   initWidthAndHeight: function(){
     this.initHeight = 3.5;
@@ -248,11 +250,11 @@ var SModal = Class.create({
   },
   show: function() {
     ModalStore.show();
-    this.fadeIn();
+    this.con.style.display = 'block';
   },
   hide: function(before) {
     ModalStore.hide();
-    this.fadeOut();
+    this.con.style.disaply = 'none';
   },
   getStyle: function (obj, attr){
     if (obj.currentStyle) {
@@ -265,25 +267,6 @@ var SModal = Class.create({
     console.log(w,h);
     this.con.style.marginTop = -h/2 + 'rem';
     this.con.style.marginLeft = -w/2 + 'rem';
-  },
-  fadeIn: function() {
-    if (this.initHeight < 4) {
-      //如果初始值宽高一样，保证增率 w = h*1.5
-      this.initHeight += .1;
-      this.initWidth += .1;
-      //this.fadeInTimer = window.requestAnimationFrame.call(this, this.fadeIn);
-      this.fadeInTimer = setTimeout(function() {
-        this.fadeIn()
-      }.bind(this), 16);
-      this.con.style.height = this.initHeight + 'rem';
-      this.con.style.width = this.initWidth + 'rem';
-      this.resetPosition(this.initWidth, this.initHeight);
-    } else {
-      this.fadeInTimer && clearTimeout(this.fadeInTimer);
-    }
-  },
-  fadeOut: function() {
-    this.initWidthAndHeight();
   }
 });
 var SAlert = Class.create(SModal, {

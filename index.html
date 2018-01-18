@@ -428,6 +428,29 @@
     console.log(obj);
 
 
+    //实现一个自存档对象
+    function Archiver() {
+      var temprature = null;
+      var archiver = [];
+      Object.defineProperty(this, 'temprature', {
+        get: function () {
+          return temprature;
+        },
+        set: function (value) {
+          temprature = value;
+          archiver.push(value);
+        }
+      });
+      this.getArchiver = function () {
+        return archiver;
+      }
+    }
+    var arch = new Archiver();
+    arch.temprature = 11;
+    arch.temprature = 13;
+    console.log(arch.temprature);
+    console.log(arch.getArchiver());
+
     //继承
     function Shape () {
       this.x = 0;

@@ -1,0 +1,103 @@
+<html>
+<meta charset="utf-8">
+<head>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    a{
+      width: 100px;
+      height: 50px;
+      display: block;
+    }
+    #progress-container{
+      position: relative;
+      width: 100%;
+      height: 30px;
+      border: 1px solid #f00;
+    }
+    #percent{
+      position: absolute;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      color: #000;
+      line-height: 30px;
+      text-align: center;
+    }
+    #progress{
+      position: absolute;
+      top: 0;
+      z-index: 500;
+      width: 0%;
+      height:30px;
+      background: #0f0;
+      transition: all .5s cubic-bezier(0.08, 0.6, 1, 0.63);
+    }
+  </style>
+</head>
+<body>
+  
+  <form method="post" action={`${prePayUrl}`}>
+    <input ref={this.getInput} type="hidden" name="cid" value={commonParam.cid}/>
+    <input type="hidden" name="uid" value={commonParam.uid}/>
+    <input type="hidden" name="city" value={commonParam.city}/>
+    <input type="hidden" name="imei" value={commonParam.imei}/>
+    <input type="hidden" name="ct" value={commonParam.ct}/>
+    <input type="hidden" name="ms" value={commonParam.ms}/>
+    <button type="submit" className="btn large default" style={{margin: '.4rem auto'}}>交租贝</button>
+  </form>
+
+  <script>
+    if (!Object.entries) {
+      Object.entries = function (obj) {
+        var arr = [];
+        for (var p in obj){
+          if (obj.hasOwnProperty(p)) {
+            arr.push([p, obj[p]]);
+          }
+        }
+        return arr;
+      }
+    }
+    if (!Object.keys) {
+      Object.keys = function (obj) {
+        if (obj === null)  throw new Error('can\'ot be null');
+        var o = Object(obj);
+        var result = [];
+        for (var i in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, i)) {
+            result.push(i);
+          }
+        }
+        return result;
+      }
+    }
+    if (!Object.is) {
+      Object.is = function (x, y) {
+        if (x === y) {
+          //取出 x,y = 0的情况
+          return x !== 0 || 1/x === 1/y;
+        } else {
+          //如果x ,y 都是 NaN则返回true, 否则全是false
+          //而自身不等于自身的只有NaN
+          return x !== x && y !== y;
+        }
+      }
+    }
+    if (!Object.val) {
+      Object.val = function (obj) {
+        if (obj === null) throw new Error('can\'ot be null');
+        var o = Object(obj);
+        var result = [];
+        for (var i in o) {
+          result.push(o[i]);
+        }
+        return result;
+      }
+    }
+    console.log(Object.val('foo'));
+  </script>
+</body>
+</html>
