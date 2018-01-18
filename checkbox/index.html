@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>checkbox</title>
+</head>
+<style type="text/css">
+	*{
+		box-sizing: border-box;
+	}
+	.outer{
+		width: 50px;
+		height: 50px;
+		border: 1px solid #ccc;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.outer.checked {
+		background: #59A3FF;
+		border-color: #59A3FF;
+	}
+	/*如果不能保证是在.checked下，那么一开始动画就会执行，那么点击的时候就没了效果*/
+	.checked .inner{
+		width: 40px;
+		height: 20px;
+		border: 10px solid #fff;
+		border-top: none;
+		border-right: none;
+		transform: rotate(-45deg);
+		animation: checkAni .36s ease-in-out;
+	}
+	@keyframes checkAni{
+		0%{
+			transform: rotate(-45deg) scale3d(0.3, 0.3, 0.3);
+		}
+		50%{
+			transform: rotate(-45deg);
+		}
+	}
+	.right-cart{
+		width: 50px;
+		height: 50px;
+		display: inline-block;
+		border: 1px solid #000;
+		border-left: none;
+		border-bottom: none;
+		transform: rotate(45deg) translateY(20px);
+	}
+</style>
+<body>
+	<div class="outer">
+		<div class="inner"></div>
+	</div>
+	<div class="right-cart"></div>
+	<script type="text/javascript">
+		var flag = false;
+		document.getElementsByClassName('outer')[0].onclick = function (){
+			if (!flag) {
+				this.className = 'outer checked';
+				flag = true;
+			} else {
+				this.className = 'outer';
+				flag = false;
+			}
+		}
+	</script>
+</body>
+</html>
