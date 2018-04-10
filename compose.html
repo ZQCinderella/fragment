@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <script>
+      /*
+      * compose的设计思路。 compose就像是讲需要执行的函数组装成了队列， 只要执行启动函数，则队列中的函数就会依次执行
+      * 1、执行顺序是从右向左
+      * 2、前一个函数的输出作为后一个函数的输入
+      */
+      function toArray(args) {
+        return Array.prototype.slice.call(args, 0);
+      }
+      function compose () {
+        var args = toArray(arguments);
+        console.log(args);
+        return function () {
+          var _args = toArray(arguments)[0];
+          return args.reduceRight(function (f, g) {
+           return f(g(_args));
+          });
+        }
+      }
+      var add = function (val) { return val + 1;}
+      var sub = function (val) { return val - 2;}
+      var com = compose(sub,add);
+      console.log(com(2));
+
+
+      //展平数组
+      function flatten () {
+        var args = toArray(arguments), result = [];
+        return (function _innerFlatten (args) {
+          console.log(args);
+           for (var i = 0; i < args.length; i++) {
+            if (Object.prototype.toString.call(args[i]) === '[object Array]') {
+              _innerFlatten(args[i]);
+            } else {
+              result.push(args[i]);
+            }
+           }
+          return result;
+        })(args)
+      }
+      console.log(flatten(1, [2, 3], [4,[5,6],7]));
+
+    </script>
+  </body>
+</html>
