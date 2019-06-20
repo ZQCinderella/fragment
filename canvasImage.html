@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <title>canvas 绘制圆角矩形</title>
+    <meta charset="utf-8" />
+    <style>
+      canvas {
+        border: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+  <script>
+    var canvas = document.createElement('canvas')
+    var ctx = canvas.getContext('2d')
+    canvas.width = 1500
+    canvas.height = 1500
+
+    async function draw () {
+      var img = new Image()
+      img.src = 'http://img2.imgtn.bdimg.com/it/u=356449223,2261279331&fm=26&gp=0.jpg'
+      img.setAttribute('crossOrign', 'anonymous')
+      var bg = new Image()
+      bg.src = 'http://b-ssl.duitang.com/uploads/item/201410/04/20141004072204_ivMSN.jpeg'
+      bg.setAttribute('crossOrigin', 'anonymous')
+      await Promise.all([img ,bg].map(function (item) {
+        return new Promise(function (resolve, reject) {
+          item.onload = resolve
+          item.onerror = reject
+        })
+      }))
+      // img, x, y 为起始坐标， width, height用来控制缩放， 即图片的大小
+      ctx.drawImage(bg, 0, 0, canvas.width * 0.5, canvas.width * 0.3)
+      ctx.drawImage(img, 50, 50, 120, 80)
+    }
+    // draw()
+
+    function planeImg () {
+      var img = new Image()
+      img.onload = function () {
+        for (var i = 0; i < 4; i++) {
+          for (var j = 0; j < 3; j++) {
+            ctx.drawImage(img, 50 * j, 500 + i * 40, 50, 40)
+          }
+        }
+      }
+      img.src = 'http://img2.imgtn.bdimg.com/it/u=356449223,2261279331&fm=26&gp=0.jpg'
+      img.setAttribute('crossOrign', 'anonymous')
+    }
+    // planeImg ()
+
+
+    // 切片
+    // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+    // 前四个参数决定裁剪的开始位置和宽高， 后面四个定义切片目标显示的位置和大小
+    async function drawSpliceImg () {
+      
+      var source = new Image()
+      source.src = 'http://img2.imgtn.bdimg.com/it/u=356449223,2261279331&fm=26&gp=0.jpg'
+      source.setAttribute('crossOrigin', 'anonymous')
+      var img = new Image()
+      img.src = 'http://b-ssl.duitang.com/uploads/item/201410/04/20141004072204_ivMSN.jpeg'
+      img.setAttribute('crossOrigin', 'anonymous')
+      await Promise.all([img ,source].map(function (item) {
+        return new Promise(function (resolve, reject) {
+          item.onload = resolve
+          item.onerror = reject
+        })
+      }))
+      ctx.drawImage(img, 0, 0)
+      ctx.drawImage(source, 200, 10, 100, 100, 50, 50, 100, 100)
+    }
+    drawSpliceImg()
+    document.body.appendChild(canvas)
+
+  </script>
+</html>

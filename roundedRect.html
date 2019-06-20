@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>canvas 绘制圆角矩形</title>
+    <meta charset="utf-8" />
+    <style>
+      canvas {
+        border: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+  <script>
+    // 利用二次贝塞尔曲线绘制圆角矩形 (当radius为矩形的一半是，无法达到border-radius: 50%的效果。不够圆)
+    function roundedRect (ctx, x, y, width, height, radius) {
+      ctx.beginPath()
+      ctx.moveTo(x, y + radius)
+      ctx.lineTo(x, y + height - radius)
+      ctx.quadraticCurveTo(x, y + height, x + radius, y + height)
+      ctx.lineTo(x + width - radius, y + height)
+      ctx.quadraticCurveTo(x + width, y + height, x + width, y + height - radius)
+      ctx.lineTo(x + width, y + radius)
+      ctx.quadraticCurveTo(x + width, y, x + width - radius, y)
+      ctx.lineTo(x + radius, y)
+      ctx.quadraticCurveTo(x, y, x, y + radius)
+      ctx.stroke()
+    }
+
+    // 利用arc方法绘制圆角矩形(比较好的方案)
+    function drawRoundedRect (ctx, x, y, width, height, radius) {
+      var pi = Math.PI
+      ctx.beginPath()
+      ctx.moveTo(x, y + radius)
+      ctx.lineTo(x, y + height - radius)
+      ctx.arc(x + radius, y + height - radius, radius, pi, pi / 2, true)
+      ctx.lineTo(x + width - radius, y + height)
+      ctx.arc(x + width - radius, y + height - radius, radius, pi / 2, 0, true)
+      ctx.lineTo(x + width, y + radius)
+      ctx.arc(x + width - radius, y + radius, radius, 0, pi * 1.5, true)
+      ctx.lineTo(x + radius, y)
+      ctx.arc(x + radius, y + radius, radius, pi * 1.5, pi, true)
+      ctx.stroke()
+    }
+    var canvas = document.createElement('canvas')
+    var ctx = canvas.getContext('2d')
+    canvas.width = 1500
+    canvas.height = 1500
+    
+    drawRoundedRect(ctx, 10, 10, 100, 100, 10)
+    drawRoundedRect(ctx, 120, 10, 100, 100, 50)
+    
+    document.body.appendChild(canvas)
+  </script>
+</html>

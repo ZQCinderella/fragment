@@ -1,0 +1,122 @@
+<html>
+  <head>
+    <title>canvas学习</title>
+    <meta charset="utf-8" />
+    <style>
+      canvas {
+        border: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+  <script>
+    var canvas = document.createElement('canvas')
+    var ctx = canvas.getContext('2d')
+    canvas.width = 1500
+    canvas.height = 1500
+    
+    ctx.fillStyle = 'rgb(200,0,0)'
+    // 填充一个矩形
+    ctx.fillRect(10, 10, 50, 50)
+
+    ctx.fillStyle = 'rgba(0,0,200,0.5)'
+    ctx.fillRect(30, 30, 50, 50)
+
+    // 绘制一个矩形的边框
+    ctx.strokeRect(80, 80, 30, 30)
+
+    setTimeout(function () {
+      // 清除canvas, x, y, width, height
+      // ctx.clearRect(0, 0, 150, 150)
+    }, 2000)
+
+    // 绘制路径
+
+    // 设置路径, 调用之后，列表清空重置，就可以重新绘制新的图形
+    ctx.beginPath()
+    ctx.strokeStyle = '#000'
+    // 制定起始位置. 将笔触移动到指定的坐标x以及y上。
+    ctx.moveTo(50, 110)
+    // 绘制一条从当前位置到指定x以及y位置的直线。
+    ctx.lineTo(50, 210)
+    ctx.lineTo(100, 165)
+    // 闭合路径， 之后绘图命令回重新指向到上下文。 
+    ctx.closePath() 
+    // 通过线条来绘制图形轮廓。该方法不会调用closePath， 但是fill会调用closePath自动闭合
+    ctx.stroke()
+
+    ctx.beginPath()
+    // 制定起始位置. 将笔触移动到指定的坐标x以及y上。
+    ctx.moveTo(150, 110)
+    // 绘制一条从当前位置到指定x以及y位置的直线。
+    ctx.lineTo(150, 210)
+    ctx.lineTo(100, 165)
+    // 调用了fill之后无需再调用closePath
+    ctx.fill()
+
+    // 绘制圆弧
+    ctx.beginPath()
+    // arc(x, y, radius, startAngle, endAngle, anticlockwise)绘制圆形，x,y为圆心， radius为半径, anticlockwise为方向，默认顺时针false
+    // startAngle起始角 钟表3点的位置为0和2PI，6点为0.5PI, 9点为PI, 12点为1.5PI
+    // 如果起始点和endAngle在同一个位置，则会形成闭环
+    ctx.arc(100, 300, 50, 0, Math.PI * 2, true)
+    // moveTo就是不显示路径，如果去掉的话，会将笔尖的挪动体现在画板上。就相当于moveTo是抬起画笔，直接移动到某一个点开始画。
+    ctx.moveTo(140, 300)
+    ctx.arc(100, 300, 40, 0, Math.PI, false) // 口
+    ctx.moveTo(85, 285)
+    // 如果起始点和endAngle在同一个位置，则会形成闭环 如 
+    // ctx.moveTo(75, 285) ctx.arc(80, 285, 5, 0, Math.PI) endAngle为PI，即最左边的9点钟(75, 285)位置，会形成一个凹口向上的封闭半圆
+    ctx.arc(80, 285, 5, 0, Math.PI * 2) // 左眼
+    ctx.moveTo(125, 285)
+    ctx.arc(120, 285, 5, 0, Math.PI * 2) // 右眼
+    // ctx.closePath()
+    ctx.stroke()
+
+    ctx.beginPath()
+    // 向上的半圆
+    ctx.arc(100, 400, 30, 0, Math.PI)
+    ctx.stroke()
+    
+    ctx.beginPath()
+    // 起点和终点位于同一位置的向下闭口半圆
+    ctx.moveTo(150, 400)
+    ctx.arc(180, 400, 30, 0, Math.PI, true)
+    ctx.stroke()
+
+    ctx.beginPath()
+    // 起点和终点不在同一位置的向下开口半圆
+    ctx.moveTo(290, 400)
+    ctx.arc(260, 400, 30, 0, Math.PI, true)
+    ctx.stroke()
+
+    ctx.beginPath()
+    // 第一象限圆弧
+    ctx.arc(340, 400, 30, 0, Math.PI * 1.5, true)
+    ctx.stroke()
+
+    ctx.beginPath()
+    // 第二象限圆弧
+    ctx.arc(420, 400, 30, Math.PI, Math.PI * 1.5)
+    ctx.stroke()
+
+    ctx.beginPath()
+    // 第三象限圆弧
+    ctx.arc(500, 400, 30, Math.PI / 2, Math.PI)
+    ctx.stroke()
+
+    ctx.beginPath()
+    // 第四象限圆弧
+    ctx.arc(580, 400, 30,0, Math.PI / 2)
+    ctx.stroke()
+
+    ctx.beginPath()
+    // 游戏中吃东西的嘴
+    ctx.arc(100, 500, 30, Math.PI / 6, -Math.PI / 6)
+    ctx.lineTo(85, 500)
+    // ctx.stroke()
+    // fill自动闭合始末路径
+    ctx.fill()
+    document.body.appendChild(canvas)
+  </script>
+</html>

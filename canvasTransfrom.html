@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>canvas 绘制圆角矩形</title>
+    <meta charset="utf-8" />
+    <style>
+      canvas {
+        border: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+  <script>
+    var canvas = document.createElement('canvas')
+    var ctx = canvas.getContext('2d')
+    canvas.width = 1500
+    canvas.height = 1500
+
+    function drawRect () {
+      // save 和 restore就像是入栈出栈。 先入后出
+      ctx.fillStyle = '#0f0'
+      ctx.fillRect(0, 0, 150, 150)
+      ctx.save() // 存储 #0f0
+      ctx.fillStyle = '#09F'
+      ctx.fillRect(15, 15, 120, 120)
+      ctx.save() // 存储 #09f的fillStyle
+      ctx.fillStyle = '#FFF'       // 再次改变颜色配置
+      ctx.globalAlpha = 0.5;    
+      ctx.fillRect(30,30,90,90);
+
+      ctx.restore() // 重新加载之前的fillStyle  #09f
+      ctx.fillRect(45,45,60,60);
+
+      // 重载 #0f0
+      ctx.restore()
+      ctx.fillRect(60,60,30,30);
+    }
+    drawRect()
+    document.body.appendChild(canvas)
+
+  </script>
+</html>

@@ -1,0 +1,130 @@
+<html>
+  <head>
+    <title>canvas添加样式和颜色</title>
+    <meta charset="utf-8" />
+    <style>
+      canvas {
+        border: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+  <script>
+    var canvas = document.createElement('canvas')
+    var ctx = canvas.getContext('2d')
+    canvas.width = 1500
+    canvas.height = 1500
+    
+    function drawRect () {
+      ctx.beginPath()
+      for (var i = 0; i < 6; i++) {
+        for (var j = 0; j < 6; j++) {
+          ctx.fillStyle = 'rgb(' + Math.floor(255-42.5 * i) + ',' + Math.floor(255-42.5 * j) + ', 0)'
+          ctx.fillRect(j * 25, i * 25, 25, 25)
+        }
+      }
+    }
+    drawRect()
+
+    function drawCircle () {
+      for (var i = 0; i < 6; i++) {
+        for (var j = 0; j < 6; j++) {
+          // 使用透明度
+          ctx.strokeStyle = 'rgba(0, ' + Math.floor(255-42.5 * i) + ',' + Math.floor(255-42.5 * j) + ', .7)'
+          ctx.beginPath()
+          ctx.arc(12.5 + 25 * j, 12.5 + 25 * i + 200, 10, 0, Math.PI * 2)
+          ctx.stroke()
+        }
+      }
+    }
+    drawCircle()
+    
+    function drawRectAndCircle () {
+      ctx.beginPath()
+      ctx.fillStyle = '#fd0'
+      ctx.fillRect(0, 400, 75, 75)
+      ctx.fillStyle = '#6c0'
+      ctx.fillRect(75, 400, 75, 75)
+      ctx.fillStyle = '#09f'
+      ctx.fillRect(0, 475, 75, 75)
+      ctx.fillStyle = '#F30';
+      ctx.fillRect(75,475,75,75)
+
+      ctx.fillStyle = 'rgba(255,255,255, .2)'
+      for (var i = 0; i < 7; i++) {
+        ctx.beginPath()
+        ctx.arc(75, 475, 10 + 10 * i, 0, Math.PI * 2)
+        ctx.fill()
+      }
+    }
+    drawRectAndCircle()
+
+    function drawDash () {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.beginPath()
+      // setLineDash设置虚线，接受一个数组作为参数，第一个是实线的长度，第二个是两跟实线间的间隙. 正值向左偏移
+      ctx.setLineDash([4, 2])
+      ctx.lineDashOffset = -offset
+      ctx.strokeRect(100, 100, 100, 100)
+    }
+    function march () {
+      offset++
+      // offset需要设置一个合适的值， 否则重置offset时会卡顿一下。
+      if (offset > 16) {
+        offset = 0
+      }
+      drawDash()
+      setTimeout(march, 20)
+    }
+    var offset = 0
+    // march()
+
+
+    function drawLine() {
+      // ctx.lineWidth 设置线的宽度，必须是正数， 默认1.0
+      for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
+          ctx.strokeStyle = '#333'
+          ctx.lineWidth = 1 + i
+          ctx.beginPath()
+          // canvas的网格单位是1， 所以从5开始，如果宽度是基数，则宽度会横跨4.5-5.5,这样就会导致线条看起来模糊
+          if (i % 2 === 0) {
+            ctx.moveTo(200.5 + i * 14, 5)
+            ctx.lineTo(200.5 + i * 14, 150)
+          } else {
+            ctx.moveTo(200 + i * 14, 5)
+            ctx.lineTo(200 + i * 14, 150)
+          }
+          // lineCap决定线末端的样式。 有butt, round和square。默认butt.  butt是与辅助线对其的。round末端增加了一个半径为一半线宽的半圆。square末端增加了高度为线宽一半的方块
+          ctx.lineCap = 'round'
+          ctx.stroke()
+        }
+      }
+    }
+    drawLine()
+
+    function drawLineJoin() {
+      // ctx.lineWidth 设置线的宽度，必须是正数， 默认1.0
+      ctx.lineWidth = 10
+      var lineJoin = ['round', 'bevel', 'miter']
+      for (var i = 0; i < lineJoin.length; i++) {
+        ctx.strokeStyle = '#333'
+        ctx.beginPath()
+        ctx.moveTo(400, 5 + i * 40)
+        ctx.lineTo(440, 45 + i * 40)
+        ctx.lineTo(480, 5 + i * 40)
+        ctx.lineTo(520, 45 + i * 40)
+        ctx.lineTo(560, 5 + i * 40)
+        // lineJoin有三个值，'round', 'bevel', 'miter'。表示线与线的链接处的样式，round为圆弧形，bevel是一个向上的三角形。miter时， 线段会在连接处外侧延伸直至交于一点，可以用miterLimit属性限制
+
+        ctx.lineJoin = lineJoin[i]
+        ctx.miterLimit = 15
+        ctx.stroke()
+      }
+    }
+    drawLineJoin()
+
+    document.body.appendChild(canvas)
+  </script>
+</html>

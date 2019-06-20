@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>canvas 绘制文本</title>
+    <meta charset="utf-8" />
+    <style>
+      canvas {
+        border: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+  <script>
+    var canvas = document.createElement('canvas')
+    var ctx = canvas.getContext('2d')
+    canvas.width = 1500
+    canvas.height = 1500
+
+    function draw () {
+      // font与css中的font有相同的语法
+      ctx.font = '48px serif'
+      // text, x, y, [maxWidth]  maxWidth是可选的，指定文字的最大宽度，如果超过了就会积压
+      ctx.textBaseline = 'middle'
+      // textAlign有left, right, center, start, end等值，
+      // textAlign这个属性是根据你fillText或者strokeText的 x 坐标来算的，
+      // textAlign='center'的话，也就是说，有一半在x左边，一半在 x 右边
+      // 所以如果想文字在整个canvas中居中， 就要把 x 设为canvas宽度的一半
+      ctx.textAlign = 'left'
+      ctx.fillText('Hello Canvas', 50, 50)
+      ctx.fillText('Hello fet', 340, 50)
+      // strokeText是空心的文字，只有线条
+      ctx.strokeText('Hello Canva', 50, 100)
+    }
+    draw()
+
+    function drawText () {
+      // measureText返回一个TextMetrics 对象，可以用来测量字体宽度
+      var text = ctx.measureText('Hello Worl')
+      ctx.fillText(text.width, 10, 200)
+      console.log(text)
+    }
+    drawText()
+    document.body.appendChild(canvas)
+  </script>
+</html>

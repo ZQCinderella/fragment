@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <title>canvas 绘制渐变</title>
+    <meta charset="utf-8" />
+    <style>
+      canvas {
+        border: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+  <script>
+    var canvas = document.createElement('canvas')
+    var ctx = canvas.getContext('2d')
+    canvas.width = 1500
+    canvas.height = 1500
+
+    // createLinearGradient接收四个参数，分别为开始点坐标x1, y1, 结束点坐标 x2, y2
+    var lingrad = ctx.createLinearGradient(0, 0, 0, 200)
+    lingrad.addColorStop(0, '#00ABEB')
+    lingrad.addColorStop(0.5, '#fff')
+    lingrad.addColorStop(0.5, '#26c000')
+    lingrad.addColorStop(1, '#fff')
+
+    var lingrad2 = ctx.createLinearGradient(0, 75, 0, 125)
+    lingrad2.addColorStop(0.2, '#000');
+    lingrad2.addColorStop(1, 'rgba(0,0,0,0)');
+    
+    // fillStyle和strokeStyle都可以接受lineargradient
+    ctx.fillStyle = lingrad
+    ctx.strokeStyle = lingrad2
+
+    ctx.fillRect(10, 10, 210, 210)
+    ctx.strokeRect(75, 75, 50, 50)
+
+    // createRadialGradient 从一个圆，渐变到另一个圆。 x1, y1, r1, x2, y2, r2
+    var radgrad = ctx.createRadialGradient(345, 45, 10, 352, 50, 30)
+    radgrad.addColorStop(0, '#A7D30C')
+    radgrad.addColorStop(0.9, '#FF0188')
+    radgrad.addColorStop(1, 'rgba(255,1,136,0)')
+
+    var radgrad2 = ctx.createRadialGradient(405, 105, 20, 405, 105, 40)
+    radgrad2.addColorStop(0, '#FF5F98');
+    radgrad2.addColorStop(0.75, '#FF0188');
+    radgrad2.addColorStop(1, 'rgba(255,1,136,0)');
+
+    var radgrad3 = ctx.createRadialGradient(395, 15, 15, 402, 20, 40)
+    radgrad3.addColorStop(0, '#00C9FF');
+    radgrad3.addColorStop(0.8, '#00B5E2');
+    radgrad3.addColorStop(1, 'rgba(0,201,255,0)');
+
+
+
+    ctx.fillStyle = radgrad
+    ctx.fillRect(300, 0, 150, 150)
+    ctx.fillStyle = radgrad2
+    ctx.fillRect(300, 0, 150, 150)
+    ctx.fillStyle = radgrad3
+    ctx.fillRect(300, 0, 150, 150)
+
+    // canvas图案
+    var img = new Image()
+    img.src = 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1224410354,837222448&fm=173&app=49&f=JPEG?w=218&h=146&s=F2718A7455217B154AE44D400300A0FA'
+    img.onload = function () {
+      // createPattern与drawImage不同的是，必须确认image对象已经装载完毕
+      var pat = ctx.createPattern(img, 'repeat')
+      // 同样可以赋值给fillStyle
+      ctx.fillStyle = pat
+      ctx.fillRect(300, 300, 400, 400)
+    }
+    document.body.appendChild(canvas)
+  </script>
+</html>
