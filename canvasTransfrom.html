@@ -9,6 +9,7 @@
     </style>
   </head>
   <body>
+      tranfrom的变换原理可参照<a href="https://www.cnblogs.com/hemei/p/4252817.html" target="_blank">tranfrom变换原理</a>
   </body>
   <script>
     var canvas = document.createElement('canvas')
@@ -35,7 +36,60 @@
       ctx.restore()
       ctx.fillRect(60,60,30,30);
     }
-    drawRect()
+    // drawRect()
+
+    function drawTranslate () {
+      for (var i = 0; i < 3; i++) {
+        for (var j = 0; j < 3; j++) {
+          // 想让translate始终基于最原始的canvas的原点，则需要在translate之前保存原点， translate之后restore重置原点
+          ctx.save()
+          ctx.fillStyle = 'rgb(' + (51 * i) + ', ' + (255 - 51 * i) + ', 255)'
+          ctx.translate(10 + 50 * j, 10 + 50 * i)
+          ctx.fillRect(0, 0, 25, 25)
+          ctx.restore()
+        }
+      }
+    }
+    // drawTranslate()
+    // rotate是将整个canvas进行旋转，所以canvas上的点，相对于原点的坐标是不变的
+    function drawRotateCircle () {
+      // 移动canvas的原点到(75. 75)
+      ctx.translate(85, 85)
+      for (var i = 1; i < 6; i++) {
+        ctx.save()
+        ctx.fillStyle = 'rgb('+(51*i)+','+(255-51*i)+',255)'
+        for (var j = 0; j < 6 * i; j++) {
+          // 每一层的旋转角度都是一样的
+          ctx.rotate(Math.PI * 2 / (6 * i))
+          ctx.beginPath()
+          // 内层循环圆心是不变的，因为旋转的时候，圆心相对于canvas的位置是不变的
+          ctx.arc(0, 15 * i, 5, 0, Math.PI * 2, true)
+          ctx.fill()
+        }
+        ctx.restore()
+      }
+    }
+    // drawRotateCircle()
+
+    function drawTransform () {
+      var sin = Math.sin(Math.PI / 6)
+      var cos = Math.cos(Math.PI / 6)
+      ctx.translate(100, 100)
+      var c = 0
+      for (var i = 0; i < 12; i++) {
+        c = Math.floor(255 / 12 * i)
+        ctx.fillStyle = 'rgb(' + c + ',' + c + ',' + c + ')'
+        ctx.fillRect(0, 0, 100, 10)
+        // ctx.rotate(Math.PI / 6)
+        ctx.transform(cos, sin, -sin, cos, 0, 0)
+        // ctx.transform(2, 0, 0, 2, 10 * (i + 1), 10 * (i + 1))
+      }
+    }
+    // drawTransform()
+
+    ctx.scale(-1, 1)  // x 方向-1 相当于把x轴绕y轴旋转了180度
+    ctx.font = '48px serif';
+    ctx.fillText('Hello', -135, 120)
     document.body.appendChild(canvas)
 
   </script>

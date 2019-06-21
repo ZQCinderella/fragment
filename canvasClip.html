@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <title>canvas 绘制圆角矩形</title>
+    <meta charset="utf-8" />
+    <style>
+      canvas {
+        border: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+      tranfrom的变换原理可参照<a href="https://www.cnblogs.com/hemei/p/4252817.html" target="_blank">tranfrom变换原理</a>
+  </body>
+  <script>
+    var canvas = document.createElement('canvas')
+    var context = canvas.getContext('2d')
+    canvas.width = 1500
+    canvas.height = 1000
+    async function clip () {
+      context.fillStyle = "#FFF";   
+      context.fillRect(0,0,800,600);   
+
+      
+      
+    
+      var bg = new Image()
+      bg.src = 'http://b-ssl.duitang.com/uploads/item/201410/04/20141004072204_ivMSN.jpeg'
+
+      var img = new Image()
+      img.src = 'http://img2.imgtn.bdimg.com/it/u=356449223,2261279331&fm=26&gp=0.jpg'
+
+      await Promise.all([bg ,img].map(function (item) {
+        return new Promise(function (resolve, reject) {
+          item.onload = resolve
+          item.onerror = reject
+        })
+      }))
+
+      context.drawImage(bg, 0, 0, 250, 250)
+      // 保存canvas此时的状态
+      context.save();   
+      context.beginPath();   
+
+      context.rect(65, 65, 100, 100)
+      // clip裁剪rect的区域，clip之后再绘制的内容如果在clip之外会被裁剪
+      context.clip();
+      context.drawImage(img, 65, 65, 100, 100)
+
+      // restore之后，恢复clip之前的状态
+      context.restore();
+    }
+    clip()
+    document.body.appendChild(canvas)
+
+  </script>
+</html>
