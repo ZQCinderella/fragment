@@ -1,0 +1,180 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <script>
+
+     class Point {
+       constructor () {
+         // constructor是一个默认方法，通过new生成实例时，会调用该方法
+         // constructor默认返回实例对象，即this. 当然也可以手动指定
+         return Object.create(null)
+       }
+     }
+     console.log(new Point() instanceof Point) // false
+
+     class Point2 {
+       constructor (x, y) {
+         this.x = x
+         this.y = y
+       }
+       // 类的方法都是定义在prototype上的
+       toString() {
+         console.log(this.x, this.y)
+       }
+     }
+     console.log(new Point2(1, 2).hasOwnProperty('toString')) // false
+
+     // 类的实例
+     class Point3 {
+       // 与es5一样，实例的属性除非显式定义在this上，否则都是定义在原型上的
+       constructor (name) {
+         this.name = name
+       }
+       toString() {
+         console.log('(' + this.name + ')')
+       }
+     }
+     var point3 = new Point3('ming')
+     point3.toString() // (ming)
+     console.log(point3.hasOwnProperty('name')) // true
+     console.log(point3.hasOwnProperty('toString')) // false
+  
+     // 同一个类的实例都共享一个原型对象
+     var point4 = new Point3('uzi')
+     console.log('__proto__', point4.__proto__ === point3.__proto__, point4.__proto__ === Point3.prototype) // true true
+     console.log('constructor', point3.constructor === Point3.prototype.constructor) // true
+
+     // 共享原型方法
+     point4.__proto__.printName = function () {
+       console.log('name:', this.name)
+     }
+     point4.printName() // uzi
+     point3.printName() // ming
+
+     
+
+     // getter setter
+     class MyClass {
+       // 类的内部可以使用get和set关键字，对某一个属性设置存值函数和取值函数
+        get username () {
+          // get和set属性的名字不要和this上的冲突，不然会一只出发get和set
+          console.log(this)
+          return this.name
+        }
+        set username (name) {
+          this.name = 'my name is ' + name
+        }
+     }
+     var class1 = new MyClass()
+     class1.username = 'fet'
+     console.log(class1.username)
+     // get和set 定义在username属性的描述对象上，于es5相同
+     var descriptor = Object.getOwnPropertyDescriptor(MyClass.prototype, 'username')
+     console.log('descriptor', descriptor, 'get' in descriptor) // true
+     
+     // 类不存在变量提升，这完全不同于es5
+
+     // 类的this默认指向实例，但是如果单独使用，则可能报错
+     class Logger {
+       constructor () {
+         // 解决单独使用方法是，this找不到指向的问题
+         // this.printName = this.printName.bind(this)
+       }
+       print (text) {
+         console.log(text)
+       }
+       printName (name = 'javascript') {
+         this.print(`hello ${name}`)
+       }
+       printNameAndAge = (name='js', age=18) => {
+         // 使用剪头函数同样可以解决this指向问题，因为剪头函数的this总是指向定义时所在的对象
+         this.print(`hello ${name}, my age is ${age}`)
+       }
+     }
+     var log = new Logger()
+     log.printName('nodejs')
+     var { printName, printNameAndAge } = log
+     try {
+       printName() // Cannot read property 'print' of undefined
+     } catch (e) {
+        console.log(e)
+     }
+     printNameAndAge() // hello js, my age is 18
+  
+     
+     // 静态方法
+     class Foo {
+       static classMethod () {
+         return 'hello static method'
+       }
+     }
+     // 静态方法智能在类上调用，而不能在实例上
+     console.log(Foo.classMethod()) // hello static method
+
+     // 静态方法、属性是可以被继承的
+     class Bar extends Foo {}
+     console.log(Bar.classMethod()) // hello static method
+
+
+     // 实例属性出了写在constructor中的this上，还可以直接写在类的最顶层
+     class Counter {
+       _count = 0
+       get value () {
+         console.log('Getting the current value')
+         return this._count
+       }
+       increment () {
+         this._count++
+       }
+     }
+     const count = new Counter()
+     count.increment()
+     console.log('count value: ', count.value)
+
+
+      /*
+      * compose的设计思路。 compose就像是讲需要执行的函数组装成了队列， 只要执行启动函数，则队列中的函数就会依次执行
+      * 1、执行顺序是从右向左
+      * 2、前一个函数的输出作为后一个函数的输入
+      */
+      function toArray(args) {
+        return Array.prototype.slice.call(args, 0);
+      }
+      function compose () {
+        var args = toArray(arguments);
+        return function () {
+          var _args = toArray(arguments)[0];
+          return args.reduceRight(function (f, g) {
+           return g(f);
+          }, _args);
+        }
+      }
+      var add = function (val) { return val + 1;}
+      var sub = function (val) { return val - 2;}
+      var mult = function (val) { return val * 2;}
+      var com = compose(sub,add, mult);
+      console.log(com(2));
+
+
+      //展平数组
+      function flatten () {
+        var args = toArray(arguments), result = [];
+        return (function _innerFlatten (args) {
+          console.log(args);
+           for (var i = 0; i < args.length; i++) {
+            if (Object.prototype.toString.call(args[i]) === '[object Array]') {
+              _innerFlatten(args[i]);
+            } else {
+              result.push(args[i]);
+            }
+           }
+          return result;
+        })(args)
+      }
+      console.log(flatten(1, [2, 3], [4,[5,6],7]));
+      
+    </script>
+  </body>
+</html>
