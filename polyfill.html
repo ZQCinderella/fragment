@@ -35,6 +35,10 @@
       background: #0f0;
       transition: all .5s cubic-bezier(0.08, 0.6, 1, 0.63);
     }
+    #img {
+      width: 400px;
+      height: 500px;
+    }
   </style>
 </head>
 <body>
@@ -48,7 +52,10 @@
     <input type="hidden" name="ms" value={commonParam.ms}/>
     <button type="submit" className="btn large default" style={{margin: '.4rem auto'}}>交租贝</button>
   </form>
-
+  <img id="img" src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3398599989,3485796250&fm=27&gp=0.jpg" alt="">
+  <button id="turn_left">左转</button>
+  <button id="turn_right">右转</button>
+  <button id="save">保存</button>
   <script>
     if (!Object.entries) {
       Object.entries = function (obj) {
@@ -98,6 +105,65 @@
       }
     }
     console.log(Object.val('foo'));
+    var img = document.getElementById('img')
+    var curDeg = 0;
+    document.getElementById('turn_left').onclick = function () {
+      if (curDeg === -360) {
+        curDeg = 0
+      }
+      curDeg -= 90
+      img.style.transform = 'rotate(' + curDeg + 'deg)'
+    }
+    document.getElementById('turn_right').onclick = function () {
+      if (curDeg === 360) {
+        curDeg = 0
+      }
+      curDeg += 90
+      img.style.transform = 'rotate(' + curDeg + 'deg)'
+    }
+    document.getElementById('save').onclick = async function () {
+      var per = curDeg / 360
+      var width = img.width
+      var height = img.height
+      var isOdd = Math.abs(per*4)%2 !== 0
+      if (isOdd) {
+        width = img.height
+        height = img.width
+      }
+      console.log(per, width, height)
+      var canvas = document.createElement('canvas')
+      var context = canvas.getContext('2d')
+      canvas.id = 'canvas'
+      canvas.width = width
+      canvas.height = height
+      var image = new Image()
+      var image2 = new Image()
+      image.setAttribute('crossOrigin', 'anonymous')
+      image.src = 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3398599989,3485796250&fm=27&gp=0.jpg'
+      image.style.transform = 'rotate(' + curDeg + 'deg)'
+      await Promise.all([image].map(function (item) {
+        return new Promise(function (resolve, reject) {
+          item.onload = resolve
+          item.onerror = reject
+        })
+      }))
+      // context.save()
+      context.translate(canvas.width / 2, canvas.height / 2)
+      context.rotate(Math.PI * 2 * per)
+      if (isOdd) {
+        context.translate(-canvas.height / 2, -canvas.width / 2)
+        context.drawImage(image, 0, 0, canvas.height, canvas.width)
+      } else {
+        context.translate(-canvas.width / 2, -canvas.height / 2)
+        context.drawImage(image, 0, 0, canvas.width, canvas.height)
+      }
+      // document.body.appendChild(canvas)
+      var src = canvas.toDataURL('image/jpeg')
+      console.log(src)
+      image2.setAttribute('crossOrigin', 'anonymous')
+      image2.src = src
+      document.body.appendChild(image2)
+    }
   </script>
 </body>
 </html>

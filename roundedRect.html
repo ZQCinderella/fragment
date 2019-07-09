@@ -50,5 +50,15 @@
     drawRoundedRect(ctx, 120, 10, 100, 100, 50)
     
     document.body.appendChild(canvas)
+
+    function replaceStr (str, reg) {
+      if (!str) return ''
+      var reg = reg || /\{(\d+)\}/g;
+      return str.replace(reg, function(m, name) {
+        console.log(m)
+        return name + '/'
+      })
+    }
+    console.log(replaceStr('{7}{9}-{7}{10}'))
   </script>
 </html>
