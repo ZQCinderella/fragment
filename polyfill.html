@@ -38,6 +38,7 @@
     #img {
       width: 400px;
       height: 500px;
+      margin-left: 100px;
     }
   </style>
 </head>
@@ -56,6 +57,7 @@
   <button id="turn_left">左转</button>
   <button id="turn_right">右转</button>
   <button id="save">保存</button>
+  <button id="save2">直接保存</button>
   <script>
     if (!Object.entries) {
       Object.entries = function (obj) {
@@ -163,6 +165,18 @@
       image2.setAttribute('crossOrigin', 'anonymous')
       image2.src = src
       document.body.appendChild(image2)
+    }
+    document.getElementById('save2').onclick = async function () {
+      // 只能在图片不旋转的情况下截取图片
+      var width = img.offsetWidth
+      var height = img.offsetHeight
+      var canvas = document.createElement('canvas')
+      var context = canvas.getContext('2d')
+      canvas.id = 'canvas'
+      canvas.width = width
+      canvas.height = height
+      context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, 0, 0, width, height)
+      document.body.appendChild(canvas)
     }
   </script>
 </body>
